@@ -10,6 +10,7 @@ version = project.property("firebase-database.version") as String
 plugins {
     id("com.android.library")
     kotlin("multiplatform")
+    kotlin("plugin.serialization") version "1.5.31"
 }
 
 repositories {
@@ -22,10 +23,16 @@ android {
     defaultConfig {
         minSdk = property("minSdkVersion") as Int
         targetSdk = property("targetSdkVersion") as Int
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
     sourceSets {
         getByName("main") {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
+        }
+        getByName("androidTest"){
+            java.srcDir(file("src/androidAndroidTest/kotlin"))
+            manifest.srcFile("src/androidAndroidTest/AndroidManifest.xml")
         }
     }
     testOptions {
@@ -39,7 +46,7 @@ android {
         resources.pickFirsts.add("META-INF/LGPL2.1")
     }
     lint {
-        isAbortOnError = false
+        abortOnError = false
     }
 }
 
@@ -125,8 +132,8 @@ kotlin {
     sourceSets {
         all {
             languageSettings.apply {
-                apiVersion = "1.5"
-                languageVersion = "1.5"
+                apiVersion = "1.6"
+                languageVersion = "1.6"
                 progressiveMode = true
                 optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 optIn("kotlinx.coroutines.FlowPreview")
