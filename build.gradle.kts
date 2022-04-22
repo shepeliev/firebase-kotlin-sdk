@@ -40,6 +40,11 @@ tasks {
     }
 }
 
+repositories {
+    google()
+    mavenCentral()
+}
+
 subprojects {
 
     group = "dev.gitlive"
