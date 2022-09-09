@@ -204,7 +204,7 @@ subprojects {
         dependencies {
             "commonMainImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
             "androidMainImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.0-native-mt")
-            "androidMainImplementation"(platform("com.google.firebase:firebase-bom:29.3.0"))
+            "androidMainImplementation"(platform("com.google.firebase:firebase-bom:30.3.2"))
             "commonTestImplementation"(kotlin("test-common"))
             "commonTestImplementation"(kotlin("test-annotations-common"))
             "commonTestImplementation"("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
