@@ -56,7 +56,7 @@ expect open class Query {
     fun limit(limit: Number): Query
     val snapshots: Flow<QuerySnapshot>
     fun snapshots(includeMetadataChanges: Boolean = false): Flow<QuerySnapshot>
-    suspend fun get(): QuerySnapshot
+    suspend fun get(source: Source = Source.DEFAULT): QuerySnapshot
     internal fun _where(field: String, equalTo: Any?): Query
     internal fun _where(path: FieldPath, equalTo: Any?): Query
     internal fun _where(field: String, equalTo: DocumentReference): Query
@@ -129,7 +129,7 @@ expect class DocumentReference {
     val parent: CollectionReference
 
     fun collection(collectionPath: String): CollectionReference
-    suspend fun get(): DocumentSnapshot
+    suspend fun get(source: Source = Source.DEFAULT): DocumentSnapshot
 
     suspend inline fun <reified T> set(data: T, encodeDefaults: Boolean = true, merge: Boolean = false)
     suspend inline fun <reified T> set(data: T, encodeDefaults: Boolean = true, vararg mergeFields: String)
@@ -249,4 +249,10 @@ expect object FieldValue {
     @Deprecated("Replaced with FieldValue.delete")
     @JsName("deprecatedDelete")
     fun delete(): Any
+}
+
+expect enum class Source {
+    DEFAULT,
+    SERVER,
+    CACHE,
 }

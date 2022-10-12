@@ -296,8 +296,8 @@ actual class DocumentReference(val android: com.google.firebase.firestore.Docume
     actual suspend fun delete() =
         android.delete().await().run { Unit }
 
-    actual suspend fun get() =
-        DocumentSnapshot(android.get().await())
+    actual suspend fun get(source: Source) =
+        DocumentSnapshot(android.get(source).await())
 
     actual val snapshots get() = callbackFlow<DocumentSnapshot> {
         val listener = android.addSnapshotListener { snapshot, exception ->
@@ -310,7 +310,7 @@ actual class DocumentReference(val android: com.google.firebase.firestore.Docume
 
 actual open class Query(open val android: com.google.firebase.firestore.Query) {
 
-    actual suspend fun get() = QuerySnapshot(android.get().await())
+    actual suspend fun get(source: Source) = QuerySnapshot(android.get(source).await())
 
     actual fun limit(limit: Number) = Query(android.limit(limit.toLong()))
 
@@ -478,3 +478,5 @@ actual object FieldValue {
     actual fun arrayRemove(vararg elements: Any): Any = FieldValue.arrayRemove(*elements)
     actual fun delete(): Any = delete
 }
+
+actual typealias Source = com.google.firebase.firestore.Source

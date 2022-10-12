@@ -212,8 +212,8 @@ actual class DocumentReference(val ios: FIRDocumentReference) {
     actual suspend fun delete() =
         await { ios.deleteDocumentWithCompletion(it) }
 
-    actual suspend fun get() =
-        DocumentSnapshot(awaitResult { ios.getDocumentWithCompletion(it) })
+    actual suspend fun get(source: Source) =
+        DocumentSnapshot(awaitResult { ios.getDocumentWithSource(source.ios, it) })
 
     actual val snapshots get() = callbackFlow<DocumentSnapshot> {
         val listener = ios.addSnapshotListener { snapshot, error ->
@@ -226,7 +226,7 @@ actual class DocumentReference(val ios: FIRDocumentReference) {
 
 actual open class Query(open val ios: FIRQuery) {
 
-    actual suspend fun get() = QuerySnapshot(awaitResult { ios.getDocumentsWithCompletion(it) })
+    actual suspend fun get(source: Source) = QuerySnapshot(awaitResult { ios.getDocumentsWithSource(source.ios, it) })
 
     actual fun limit(limit: Number) = Query(ios.queryLimitedTo(limit.toLong()))
 
@@ -487,4 +487,10 @@ suspend inline fun <T> await(function: (callback: (NSError?) -> Unit) -> T): T {
     }
     job.await()
     return result
+}
+
+actual enum class Source(internal val ios: FIRFirestoreSource) {
+    DEFAULT(FIRFirestoreSource.FIRFirestoreSourceDefault),
+    SERVER(FIRFirestoreSource.FIRFirestoreSourceServer),
+    CACHE(FIRFirestoreSource.FIRFirestoreSourceCache),
 }

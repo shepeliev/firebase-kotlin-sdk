@@ -269,7 +269,10 @@ actual class DocumentReference(val js: firebase.firestore.DocumentReference) {
 
     actual suspend fun delete() = rethrow { js.delete().await() }
 
-    actual suspend fun get() = rethrow { DocumentSnapshot(js.get().await()) }
+    actual suspend fun get(source: Source) = rethrow {
+        val options = json("source" to source.js)
+        DocumentSnapshot(js.get(options).await())
+    }
 
     actual val snapshots get() = callbackFlow<DocumentSnapshot> {
         val unsubscribe = js.onSnapshot(
@@ -282,7 +285,10 @@ actual class DocumentReference(val js: firebase.firestore.DocumentReference) {
 
 actual open class Query(open val js: firebase.firestore.Query) {
 
-    actual suspend fun get() =  rethrow { QuerySnapshot(js.get().await()) }
+    actual suspend fun get(source: Source) =  rethrow {
+        val options = json("source" to source.js)
+        QuerySnapshot(js.get(options).await())
+    }
 
     actual fun limit(limit: Number) = Query(js.limit(limit.toDouble()))
 
@@ -549,3 +555,9 @@ fun entriesOf(jsObject: dynamic): List<Pair<String, Any?>> =
 // from: https://discuss.kotlinlang.org/t/how-to-access-native-js-object-as-a-map-string-any/509/8
 fun mapOf(jsObject: dynamic): Map<String, Any?> =
     entriesOf(jsObject).toMap()
+
+actual enum class Source(internal val js: String) {
+    DEFAULT("default"),
+    SERVER("server"),
+    CACHE("cache"),
+}
