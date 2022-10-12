@@ -9,7 +9,7 @@ version = project.property("firebase-common.version") as String
 plugins {
     id("com.android.library")
     kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("plugin.serialization") version "1.7.10"
 }
 
 android {
@@ -108,7 +108,7 @@ kotlin {
 
         val jsMain by getting {
             dependencies {
-                api(npm("firebase", "9.4.1"))
+                api(npm("firebase", "9.12.0"))
             }
         }
     }
@@ -126,4 +126,3 @@ signing {
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications)
 }
-

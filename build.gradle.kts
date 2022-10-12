@@ -3,7 +3,7 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    kotlin("multiplatform") version "1.6.10" apply false
+    kotlin("multiplatform") version "1.7.10" apply false
     id("base")
     id("com.github.ben-manes.versions") version "0.42.0"
 }

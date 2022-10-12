@@ -10,7 +10,7 @@ version = project.property("firebase-database.version") as String
 plugins {
     id("com.android.library")
     kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.6.10"
+    kotlin("plugin.serialization") version "1.7.10"
 }
 
 repositories {
@@ -180,4 +180,3 @@ signing {
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications)
 }
-
