@@ -6,8 +6,10 @@ package dev.gitlive.firebase.database
 
 import dev.gitlive.firebase.*
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.*
 import kotlin.test.*
+import kotlin.time.Duration.Companion.seconds
 
 expect val emulatorHost: String
 expect val context: Any
@@ -40,6 +42,8 @@ class FirebaseDatabaseTest {
 
     @Test
     fun testSetValue() = runTest {
+        awaitDatabaseConnection()
+
         val testValue = "test"
         val testReference = Firebase.database.reference("testPath")
 
@@ -52,9 +56,11 @@ class FirebaseDatabaseTest {
 
         assertEquals(testValue, testReferenceValue)
     }
-    
+
     @Test
     fun testChildCount() = runTest {
+        awaitDatabaseConnection()
+
         setupRealtimeData()
         val dataSnapshot = Firebase.database
             .reference("FirebaseRealtimeDatabaseTest")
@@ -63,6 +69,13 @@ class FirebaseDatabaseTest {
 
         val firebaseDatabaseChildCount = dataSnapshot.children.count()
         assertEquals(3, firebaseDatabaseChildCount)
+    }
+
+    private suspend fun awaitDatabaseConnection() {
+        // workaround to avoid "Database not connected" exception with Firebase emulator
+        withTimeout(30.seconds) {
+            Firebase.database.reference(".info/connected").valueEvents.first { it.value() }
+        }
     }
 
     private suspend fun setupRealtimeData() {
