@@ -1,6 +1,6 @@
 {
   "name": "@gitlive/firebase-common",
-  "version": "1.6.3-oko",
+  "version": "1.6.4-oko",
   "description": "Wrapper around firebase for usage in Kotlin Multiplatform projects",
   "main": "firebase-common.js",
   "scripts": {
