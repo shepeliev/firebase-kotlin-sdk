@@ -62,6 +62,14 @@ actual class FirebaseDatabase internal constructor(val ios: FIRDatabase) {
 
     actual fun useEmulator(host: String, port: Int) =
         ios.useEmulatorWithHost(host, port.toLong())
+
+    actual fun goOnline() {
+        // not implemented for iOS
+    }
+
+    actual fun goOffline() {
+        // not implemented for iOS
+    }
 }
 
 fun Type.toEventType() = when(this) {

@@ -56,6 +56,8 @@ actual class FirebaseDatabase internal constructor(val js: Database) {
     actual fun setPersistenceEnabled(enabled: Boolean) {}
     actual fun setLoggingEnabled(enabled: Boolean) = rethrow { enableLogging(enabled) }
     actual fun useEmulator(host: String, port: Int) = rethrow { connectDatabaseEmulator(js, host, port) }
+    actual fun goOnline() = rethrow { goOnline(js) }
+    actual fun goOffline() = rethrow { goOnline(js) }
 }
 
 actual open class Query internal constructor(open val js: JsQuery) {

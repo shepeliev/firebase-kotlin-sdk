@@ -76,6 +76,14 @@ actual class FirebaseDatabase internal constructor(val android: com.google.fireb
 
     actual fun useEmulator(host: String, port: Int) =
         android.useEmulator(host, port)
+
+    actual fun goOnline() {
+        // not implemented for Android
+    }
+
+    actual fun goOffline() {
+        // not implemented for Android
+    }
 }
 
 actual open class Query internal constructor(
@@ -238,4 +246,3 @@ actual class OnDisconnect internal constructor(
 }
 
 actual typealias DatabaseException = com.google.firebase.database.DatabaseException
-

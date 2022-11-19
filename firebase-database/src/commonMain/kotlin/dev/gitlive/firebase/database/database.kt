@@ -29,6 +29,8 @@ expect class FirebaseDatabase {
     fun setPersistenceEnabled(enabled: Boolean)
     fun setLoggingEnabled(enabled: Boolean)
     fun useEmulator(host: String, port: Int)
+    fun goOnline()
+    fun goOffline()
 }
 
 data class ChildEvent internal constructor(
@@ -96,4 +98,3 @@ expect class OnDisconnect {
     suspend fun <T> setValue(strategy: SerializationStrategy<T>, value: T, encodeDefaults: Boolean = true)
     suspend fun updateChildren(update: Map<String, Any?>, encodeDefaults: Boolean = true)
 }
-
