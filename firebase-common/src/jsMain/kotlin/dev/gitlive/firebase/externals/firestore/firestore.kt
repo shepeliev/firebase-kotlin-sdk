@@ -61,12 +61,17 @@ external fun endBefore(document: DocumentSnapshot): QueryConstraint
 
 external fun endBefore(vararg fieldValues: Any): QueryConstraint
 
-external fun getDoc(
-    reference: DocumentReference,
-    options: Any? = definedExternally
-): Promise<DocumentSnapshot>
+external fun getDoc(reference: DocumentReference): Promise<DocumentSnapshot>
+
+external fun getDocFromCache(reference: DocumentReference): Promise<DocumentSnapshot>
+
+external fun getDocFromServer(reference: DocumentReference): Promise<DocumentSnapshot>
 
 external fun getDocs(query: Query): Promise<QuerySnapshot>
+
+external fun getDocsFromCache(query: Query): Promise<QuerySnapshot>
+
+external fun getDocsFromServer(query: Query): Promise<QuerySnapshot>
 
 external fun getFirestore(app: FirebaseApp? = definedExternally): Firestore
 

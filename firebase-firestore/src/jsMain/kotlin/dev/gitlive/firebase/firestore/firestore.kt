@@ -296,7 +296,14 @@ actual class DocumentReference(val js: JsDocumentReference) {
 
     actual suspend fun delete() = rethrow { deleteDoc(js).await() }
 
-    actual suspend fun get() = rethrow { DocumentSnapshot(getDoc(js).await()) }
+    actual suspend fun get(source: Source) = rethrow {
+        val promise  = when (source) {
+            Source.DEFAULT -> getDoc(js)
+            Source.SERVER -> getDocFromServer(js)
+            Source.CACHE -> getDocFromCache(js)
+        }
+        DocumentSnapshot(promise.await())
+    }
 
     actual val snapshots get() = callbackFlow<DocumentSnapshot> {
         val unsubscribe = onSnapshot(
@@ -310,7 +317,14 @@ actual class DocumentReference(val js: JsDocumentReference) {
 
 actual open class Query(open val js: JsQuery) {
 
-    actual suspend fun get() =  rethrow { QuerySnapshot(getDocs(js).await()) }
+    actual suspend fun get(source: Source) =  rethrow {
+        val promise = when (source) {
+            Source.DEFAULT -> getDocs(js)
+            Source.SERVER -> getDocsFromServer(js)
+            Source.CACHE -> getDocsFromCache(js)
+        }
+        QuerySnapshot(promise.await())
+    }
 
     actual fun limit(limit: Number) = Query(query(js, jsLimit(limit)))
 
