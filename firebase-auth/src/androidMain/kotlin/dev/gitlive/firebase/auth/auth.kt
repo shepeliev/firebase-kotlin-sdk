@@ -11,6 +11,7 @@ import com.google.firebase.auth.ActionCodeResult.*
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.FirebaseApp
+import dev.gitlive.firebase.isEmulator
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -107,7 +108,9 @@ actual class FirebaseAuth internal constructor(val android: com.google.firebase.
         } as T
     }
 
-    actual fun useEmulator(host: String, port: Int) = android.useEmulator(host, port)
+    actual fun useEmulator(host: String, port: Int) {
+        android.useEmulator(if (isEmulator && host == "localhost") "10.0.2.2" else host, port)
+    }
 }
 
 actual class AuthResult internal constructor(val android: com.google.firebase.auth.AuthResult) {

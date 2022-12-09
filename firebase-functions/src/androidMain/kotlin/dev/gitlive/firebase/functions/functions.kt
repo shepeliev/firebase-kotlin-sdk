@@ -8,6 +8,7 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.FirebaseApp
 import dev.gitlive.firebase.decode
 import dev.gitlive.firebase.encode
+import dev.gitlive.firebase.isEmulator
 import kotlinx.coroutines.tasks.await
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerializationStrategy
@@ -31,7 +32,9 @@ actual class FirebaseFunctions internal constructor(val android: com.google.fire
 
     actual fun useFunctionsEmulator(origin: String) = android.useFunctionsEmulator(origin)
 
-    actual fun useEmulator(host: String, port: Int) = android.useEmulator(host, port)
+    actual fun useEmulator(host: String, port: Int) {
+        android.useEmulator(if (isEmulator && host == "localhost") "10.0.2.2" else host, port)
+    }
 }
 
 actual class HttpsCallableReference internal constructor(val android: com.google.firebase.functions.HttpsCallableReference) {

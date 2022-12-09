@@ -13,6 +13,7 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.FirebaseApp
 import dev.gitlive.firebase.database.ChildEvent.Type
 import dev.gitlive.firebase.decode
+import dev.gitlive.firebase.isEmulator
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -74,8 +75,9 @@ actual class FirebaseDatabase internal constructor(val android: com.google.fireb
     actual fun setLoggingEnabled(enabled: Boolean) =
         android.setLogLevel(Logger.Level.DEBUG.takeIf { enabled } ?: Logger.Level.NONE)
 
-    actual fun useEmulator(host: String, port: Int) =
-        android.useEmulator(host, port)
+    actual fun useEmulator(host: String, port: Int) {
+        android.useEmulator(if (isEmulator && host == "localhost") "10.0.2.2" else host, port)
+    }
 
     actual fun goOnline() {
         // not implemented for Android

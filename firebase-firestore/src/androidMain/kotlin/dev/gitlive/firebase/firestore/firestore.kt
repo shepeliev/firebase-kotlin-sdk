@@ -57,7 +57,7 @@ actual class FirebaseFirestore(val android: com.google.firebase.firestore.Fireba
         android.clearPersistence().await().run { }
 
     actual fun useEmulator(host: String, port: Int) {
-        android.useEmulator(host, port)
+        android.useEmulator(if (isEmulator && host == "localhost") "10.0.2.2" else host, port)
         android.firestoreSettings = com.google.firebase.firestore.FirebaseFirestoreSettings.Builder()
             .setPersistenceEnabled(false)
             .build()
