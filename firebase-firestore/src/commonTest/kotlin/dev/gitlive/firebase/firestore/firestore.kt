@@ -23,6 +23,7 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlin.test.fail
 
 expect val emulatorHost: String
 expect val context: Any
@@ -130,6 +131,7 @@ class FirebaseFirestoreTest {
         assertEquals("ccc", resultDocs[0].get("prop1"))
         assertEquals("bbb", resultDocs[1].get("prop1"))
         assertEquals("aaa", resultDocs[2].get("prop1"))
+        fail("test failure")
     }
 
     @Test
